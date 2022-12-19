@@ -2,7 +2,7 @@ FROM debian
 
 RUN apt-get -y update && apt-get -y install nginx
 
-COPY default /etc/ngnix/sites-available/default
+COPY /conf/default /etc/ngnix/sites-available/default
 
 EXPOSE 80/tcp
 
