@@ -1,11 +1,16 @@
 server {
-    listen 80 default_serverss;
-    listen [::]:80 default_serverss;
+    listen 80 http2 ssl;
+    listen [::]:80 http2 ssl;
 
     root /usr/share/nginx/html;
     index index.html index.htm;
 
-    server_name _;
+    ssl_certificate /etc/ssl/certs/bbrahim.crt;
+    ssl_certificate_key /etc/ssl/private/bbrahim.key;
+
+    ssl_protocols TLSv1.3;
+
+    server_name bbrahim.42.fr www.bbrahim.42.fr;
     location / {
         try_files $uri $uri/ =404;
     }
