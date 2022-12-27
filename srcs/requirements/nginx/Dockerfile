@@ -12,5 +12,4 @@ COPY ./conf/default /etc/nginx/sites-available/
 
 EXPOSE 80/tcp
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
-
+CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
