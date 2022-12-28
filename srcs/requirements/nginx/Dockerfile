@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:buster
 
 RUN apt-get -y update && apt-get -y install nginx
 
@@ -8,7 +8,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private
 
 RUN rm /etc/nginx/sites-available/default
 
-COPY ./conf/default /etc/nginx/sites-available/ 
+COPY /conf/default /etc/nginx/sites-available/ 
 
 EXPOSE 80/tcp
 
