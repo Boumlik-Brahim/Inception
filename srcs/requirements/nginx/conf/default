@@ -1,9 +1,9 @@
 server {
-    listen 80 http2 ssl;
-    listen [::]:80 http2 ssl;
+    listen 443 http2 ssl;
+    listen [::]:443 http2 ssl;
 
-    root /usr/share/nginx/html;
-    index index.html index.htm;
+    root /var/www/html/;
+    index index.php index.html index.htm;
 
     ssl_certificate /etc/ssl/certs/bbrahim.crt;
     ssl_certificate_key /etc/ssl/private/bbrahim.key;
@@ -12,6 +12,14 @@ server {
 
     server_name bbrahim.42.fr www.bbrahim.42.fr;
     location / {
-        try_files $uri $uri/ =404;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass wordpress:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_index index.php;
     }
 }

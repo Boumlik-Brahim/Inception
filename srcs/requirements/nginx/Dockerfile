@@ -9,10 +9,10 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/ssl/certs/bbrahim.crt \
     -subj "/C=MA/ST=Khouribga/L=Khouribga/O=Inception/OU=IT/CN=localhost/emailAddress=bbrahim@student.1337.ma"
 
-RUN rm /etc/nginx/sites-available/default
+# RUN rm /etc/nginx/sites-available/default
 
 COPY /conf/default /etc/nginx/sites-available/ 
 
-EXPOSE 80/tcp
+EXPOSE 443
 
 CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]

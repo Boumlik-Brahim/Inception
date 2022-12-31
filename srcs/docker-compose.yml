@@ -1,0 +1,55 @@
+version: '3.7'
+services:
+  ngnix:
+    image: ngnix
+    build : ./requirements/nginx
+    container_name: ngnix
+    env_file: .env
+    ports:
+     - "443:443"
+    volumes:
+     - wp_v:/var/www/html
+    depends_on:
+     - wordpress
+    networks:
+      - my_net
+  mariadb:
+    image: mariadb
+    build : ./requirements/mariadb
+    container_name: mariadb
+    env_file: .env
+    ports: 
+     - "3306:3306"
+    volumes:
+     - db_v:/var/lib/mysql
+    networks:
+      - my_net
+  wordpress:
+    depends_on:
+     - mariadb
+    build : ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    env_file: .env
+    ports:
+     - "9000:9000"
+    volumes:
+     - wp_v:/var/www/html
+    networks:
+      - my_net
+networks:
+  my_net:
+    driver: bridge
+volumes:
+  wp_v:
+    driver: local
+    driver_opts:
+       type: none
+       device: /Users/bbrahim/data/wp_v
+       o: bind
+  db_v:
+    driver: local
+    driver_opts:
+       type: none
+       device: /Users/bbrahim/data/db_v
+       o: bind
