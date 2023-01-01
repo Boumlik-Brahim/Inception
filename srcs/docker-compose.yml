@@ -8,22 +8,22 @@ services:
     ports:
      - "443:443"
     volumes:
-     - wp_v:/var/www/html
+     - wordpress_volume:/var/www/html
     depends_on:
      - wordpress
     networks:
-      - my_net
+      - my_network
   mariadb:
     image: mariadb
     build : ./requirements/mariadb
     container_name: mariadb
     env_file: .env
-    ports: 
+    ports:
      - "3306:3306"
     volumes:
-     - db_v:/var/lib/mysql
+     - database_volume:/var/lib/mysql
     networks:
-      - my_net
+      - my_network
   wordpress:
     depends_on:
      - mariadb
@@ -34,22 +34,22 @@ services:
     ports:
      - "9000:9000"
     volumes:
-     - wp_v:/var/www/html
+     - wordpress_volume:/var/www/html
     networks:
-      - my_net
+      - my_network
 networks:
-  my_net:
+  my_network:
     driver: bridge
 volumes:
-  wp_v:
+  wordpress_volume:
     driver: local
     driver_opts:
        type: none
-       device: /Users/bbrahim/data/wp_v
+       device: /Users/bbrahim/Desktop/data/wordpress_volume
        o: bind
-  db_v:
+  database_volume:
     driver: local
     driver_opts:
        type: none
-       device: /Users/bbrahim/data/db_v
+       device: /Users/bbrahim/Desktop/data/database_volume
        o: bind
