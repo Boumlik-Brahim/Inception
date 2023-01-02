@@ -10,3 +10,22 @@
 #                                                                              #
 # **************************************************************************** #
 
+build:
+	mkdir -p /Users/bbrahim/Desktop/data 
+	mkdir -p /Users/bbrahim/Desktop/data/database_volume 
+	mkdir -p /Users/bbrahim/Desktop/data/wordpress_volume
+	docker-compose -f ./srcs/docker-compose.yml up --build
+
+run:
+	docker-compose -f ./srcs/docker-compose.yml up
+
+down:
+	docker-compose -f ./srcs/docker-compose.yml down
+
+clean: down
+	docker system prune -a;\
+	docker volume rm $$(docker volume ls -q);\
+	docker network rm $$(docker network ls -q);\
+	rm -rf /Users/bbrahim/Desktop/data;\
+
+.PHONY: build run stop clean

@@ -2,7 +2,8 @@ version: '3.7'
 services:
   ngnix:
     image: ngnix
-    build : ./requirements/nginx
+    build: ./requirements/nginx
+    restart: on-failure
     container_name: ngnix
     env_file: .env
     ports:
@@ -15,7 +16,8 @@ services:
       - my_network
   mariadb:
     image: mariadb
-    build : ./requirements/mariadb
+    build: ./requirements/mariadb
+    restart: on-failure
     container_name: mariadb
     env_file: .env
     ports:
@@ -27,7 +29,8 @@ services:
   wordpress:
     depends_on:
      - mariadb
-    build : ./requirements/wordpress
+    build: ./requirements/wordpress
+    restart: on-failure
     image: wordpress
     container_name: wordpress
     env_file: .env
