@@ -23,9 +23,8 @@ down:
 	docker-compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	docker system prune -a;\
 	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
+	docker system prune -a -f;\
 	rm -rf /Users/bbrahim/Desktop/data;\
 
 .PHONY: build run stop clean

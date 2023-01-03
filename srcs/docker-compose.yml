@@ -29,6 +29,7 @@ services:
   wordpress:
     depends_on:
      - mariadb
+     - redis
     build: ./requirements/wordpress
     restart: on-failure
     image: wordpress
@@ -38,6 +39,16 @@ services:
      - "9000:9000"
     volumes:
      - wordpress_volume:/var/www/html
+    networks:
+      - my_network
+  redis:
+    build: ./requirements/bonus/redis
+    restart: on-failure
+    image: redis
+    container_name: redis
+    env_file: .env
+    ports:
+     - "6379:6379"
     networks:
       - my_network
 networks:

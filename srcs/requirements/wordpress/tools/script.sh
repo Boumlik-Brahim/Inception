@@ -11,13 +11,21 @@ wp config create --dbname=$DB_NAME \
                 --skip-check \
                 --path=/var/www/html/ \
                 --allow-root
+                --extra-php
+                <<PHP
+define('WP_CACHE', true);
+define('WP_REDIS_HOST', 'redis');
+define( 'WP_REDIS_PORT', 6379 );
+define( 'WP_REDIS_TIMEOUT', 1 );
+define( 'WP_REDIS_READ_TIMEOUT', 1 );
+define( 'WP_REDIS_DATABASE', 0 );
+PHP
 
 wp core install --url=bbrahim.42.fr \
                 --title="Inception" \
                 --admin_name=bbrahim \
                 --admin_password=admin@42 \
                 --admin_email=bbrahim@student.1337.ma --path=/var/www/html/ --allow-root
-
 
 wp user create boumlikbrahim \
                 boumlikbrahim@student.1337.ma \
@@ -26,8 +34,10 @@ wp user create boumlikbrahim \
                 --allow-root \
                 --path=/var/www/html/
 
-# /usr/sbin/php-fpm7.3 --nodaemonize --allow-to-run-as-root
 service php7.3-fpm start
+
+wp plugin install redis-cache --path=/var/www/html --activate --allow-root 
+wp redis enable --path=/var/www/html/ --allow-root
 
 service php7.3-fpm stop
 
