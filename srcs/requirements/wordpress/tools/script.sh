@@ -1,7 +1,8 @@
 #!/bin/bash
-
 wp core download --path=/var/www/html --allow-root
+
 rm -rf /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
 chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 wp config create --dbname=$DB_NAME \
@@ -10,9 +11,8 @@ wp config create --dbname=$DB_NAME \
                 --dbhost=$HOST\
                 --skip-check \
                 --path=/var/www/html/ \
-                --allow-root
-                --extra-php
-                <<PHP
+                --allow-root \
+                --extra-php<<PHP
 define('WP_CACHE', true);
 define('WP_REDIS_HOST', 'redis');
 define( 'WP_REDIS_PORT', 6379 );
@@ -36,7 +36,8 @@ wp user create boumlikbrahim \
 
 service php7.3-fpm start
 
-wp plugin install redis-cache --path=/var/www/html --activate --allow-root 
+wp plugin install redis-cache --path=/var/www/html --activate --allow-root
+
 wp redis enable --path=/var/www/html/ --allow-root
 
 service php7.3-fpm stop
