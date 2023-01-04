@@ -51,6 +51,16 @@ services:
      - "6379:6379"
     networks:
       - my_network
+  ftp:
+    build: ./requirements/bonus/FTP
+    restart: on-failure
+    image: ftp
+    container_name: ftp
+    env_file: .env
+    ports:
+     - "21:21"
+    networks:
+      - my_network
 networks:
   my_network:
     driver: bridge
