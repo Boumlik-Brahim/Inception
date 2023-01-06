@@ -4,8 +4,6 @@ RUN apt-get -y update && apt-get -y install vsftpd
 
 EXPOSE 21
 
-# COPY /conf/vsftpd.conf /etc/
-
 COPY /tools/script.sh /tmp/
 
 RUN chmod +x /tmp/script.sh
