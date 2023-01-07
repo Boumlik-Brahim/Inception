@@ -1,34 +1,27 @@
 #!/bin/bash
 
-# adduser ftp_client
-# adduser ftp_client --disabled-password
+adduser ftp_client --disabled-password
 
-# mkdir /home/ftp_client/ftp
+echo "ftp_client:ftp_pass" | /usr/sbin/chpasswd &> /dev/null
 
-# chown nobody:nogroup /home/ftp_client/ftp
-# chmod a-w /home/ftp_client/ftp
+echo "ftp_client" | tee -a /etc/vsftpd.userlist &> /dev/null
 
-# mkdir /home/ftp_client/ftp/files
-# chown ftp_client:ftp_client /home/ftp_client/ftp/files
+mkdir /home/ftp_client/ftp
 
-# echo "vsftpd test file" | tee /home/ftp_client/ftp/files/test.txt
+chown nobody:nogroup /home/ftp_client/ftp
+chmod a-w /home/ftp_client/ftp
 
-# echo "ftp_client" | tee -a /etc/vsftpd.userlist
+mkdir /home/ftp_client/ftp/files
+chown ftp_client:ftp_client /home/ftp_client/ftp/files
 
-# echo "ftp_client:testpass" | chpasswd
-
-cat /etc/vsftpd.userlist | grep ftp_client > /dev/null 2>&1;
-chsh -s /bin/bash ftp_client
-usermod -d /var/www/html/wordpress ftp_client
-echo "ftp_client:testpass" | chpasswd
-chown -R ftp_client:ftp_client /var/www/html/wordpress
-echo ftp_client | tee -a /etc/vsftpd.userlist > /dev/null 2>&1
+sed -i -r "s/#write_enable=YES/write_enable=YES/1"   /etc/vsftpd.conf
+sed -i -r "s/#chroot_local_user=YES/chroot_local_user=YES/1"   /etc/vsftpd.conf
 
 echo "
-write_enable=YES
-chroot_local_user=YES
-user_sub_token=ftp_client
-local_root=/home/bbrahim/ftp
+local_enable=YES
+allow_writeable_chroot=YES
+pasv_enable=YES
+local_root=/var/www/html/wordpress
 pasv_min_port=40000
 pasv_max_port=40005
 userlist_enable=YES

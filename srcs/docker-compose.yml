@@ -53,7 +53,7 @@ services:
       - my_network
   ftp:
     build: ./requirements/bonus/FTP
-    restart: on-failure
+    restart: always
     image: ftp
     container_name: ftp
     env_file: .env
