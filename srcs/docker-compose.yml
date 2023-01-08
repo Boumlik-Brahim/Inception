@@ -65,6 +65,16 @@ services:
      - wordpress_volume:/var/www/html/wordpress
     networks:
       - my_network
+  adminer:
+    build: ./requirements/bonus/adminer
+    restart: on-failure
+    image: adminer
+    container_name: adminer
+    env_file: .env
+    ports:
+     - "8080:8080"
+    networks:
+      - my_network
 networks:
   my_network:
     driver: bridge
