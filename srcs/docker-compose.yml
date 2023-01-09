@@ -59,8 +59,6 @@ services:
     env_file: .env
     ports:
      - "21:21"
-     - "20:20"
-     - "40000-40005:40000-40005"
     volumes:
      - wordpress_volume:/var/www/html/wordpress
     networks:
@@ -88,6 +86,16 @@ services:
       - "/var/run:/var/run:rw"
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
+    networks:
+      - my_network
+  website:
+    build: ./requirements/bonus/website
+    restart: on-failure
+    image: website
+    container_name: website
+    env_file: .env
+    ports:
+     - "82:82"
     networks:
       - my_network
 networks:

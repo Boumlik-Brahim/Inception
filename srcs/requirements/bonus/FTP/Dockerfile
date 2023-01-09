@@ -1,11 +1,15 @@
 FROM debian:buster
 
-RUN apt-get -y update && apt-get -y install vsftpd
+RUN apt-get -y update 
+RUN  apt-get -y install vsftpd
 
 EXPOSE 21
 
-COPY ./tools/script.sh /tmp/
+# COPY ./conf/vsftpd.conf /etc/
 
-RUN chmod +x /tmp/script.sh
+# COPY ./tools/script.sh /tmp/
 
-CMD ["/tmp/script.sh"]
+# RUN chmod +x /tmp/script.sh
+
+# CMD ["/tmp/script.sh"]
+CMD ["tail", "-f"]
