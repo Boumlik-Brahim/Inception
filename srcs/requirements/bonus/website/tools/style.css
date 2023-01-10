@@ -1,4 +1,4 @@
-/*Generale styles*/
+/*STYLES GENERAUX*/
 *{
     font-family: Avenir, sans-serif;
     padding: 0px;
@@ -17,6 +17,7 @@ a{
     text-decoration: none;
     color: #000;
 }
+
 /*HEADER & FOOTER*/
 header, footer{
     width: 100%;
@@ -37,7 +38,6 @@ header h1{
 
 footer{
     border-top: 2px solid #fff;
-    background-image: url("cv-cover.jpg");
 }
 footer p{
     width: 90%;
@@ -48,9 +48,10 @@ footer p{
 footer a{
     color: #fff;
 }
+
 /*SECTIONS*/
 section{
-    display: flex;
+    display: flex; 
     flex-flow: row wrap;
     justify-content: center;
     width: 100%;
@@ -68,6 +69,7 @@ section > div{
     width: 90%;
 }
 
+/*SECTION INFOS*/
 .photo{
     text-align: center;
 }
@@ -75,11 +77,10 @@ section > div{
     width: 150px;
     height: 150px;
     border: 3px solid #fff;
-    box-shadow: 0px 0px 10px #fff;
+    box-shadow: 0px 0px 10px #777;
     border-radius: 50%;
     margin-top: -80px;
 }
-
 .prez{
     border-bottom: 2px dashed #ccc;
 }
@@ -89,11 +90,10 @@ section > div{
     padding: 10px;
     margin: 10px auto 30px auto;
     color: #fff;
-    background-color: #EA0;
+    background-color: #777;
     box-shadow: 0px 0px 10px #ccc;
     border-radius: 5px;
 }
-
 .contact-flex{
     display: flex;
     flex-flow: row wrap;
@@ -105,7 +105,6 @@ section > div{
 .contact-flex p:last-child{
     flex: 0 0 60%;
 }
-
 .social{
     display: flex;
     justify-content: space-around;
@@ -116,6 +115,7 @@ section > div{
     height: 40px;
 }
 
+/*SECTION EXP ET FORMATION*/
 .exp{
     display: flex;
     flex-flow: row wrap;
@@ -128,26 +128,30 @@ section > div{
     flex-flow: column wrap;
 }
 .exp-logo{
-    display: flex;
-    flex-flow: column wrap;
+    flex: 0 0 25%;
+    max-width: 100px;
 }
 .exp-info{
-   flex: 0 0 70%;
-   margin-left: auto;
+    flex: 0 0 70%;
+    margin-left: auto;
 }
 .exp img{
-    width: 100%;
+    width: 80%;
 }
 .exp h3{
-    font-size: 1.2em;
+    font-size:  1.2em;
 }
 .exp h4{
-    font-size: 1em;
+    font-size:  1em;
     font-weight: normal;
 }
 
+/*SECTION COMPETENCES*/
+.h3gauche{
+    width: 90%;
+}
 .comp{
-    display: flex;
+    display:flex;
     flex-flow: row wrap;
     margin-bottom: 10px;
 }
@@ -160,11 +164,11 @@ section > div{
     background-color: grey;
     border-bottom: 1px ridge grey;
 }
-
 .barre{
     display: block;
     height: 100%;
     border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 .c85{
     width: 85%;
@@ -183,7 +187,6 @@ section > div{
     background-color: #4B8;
     border-radius: 5px;
 }
-
 .comp2{
     display: flex;
     flex-flow: row wrap;
@@ -196,7 +199,7 @@ section > div{
     border-radius: 5px;
     background-color: grey;
 }
-
+/*SECTION INTERETS*/
 .interet{
     flex: 0 1 50%;
     display: flex;
@@ -211,50 +214,48 @@ section > div{
     box-shadow: 0px 0px 15px #555;
 }
 
+/*VERSION BUREAU DU CV*/
 @media screen and (min-width: 980px){
-    section{
+    /* section{
         width: 80%;
         box-shadow: 0px 0px 10px #bbb;
-    }
+    } */
     a:hover{
         color: #EA0;
     }
     header h1{
         width: 80%;
     }
-}
-
-.prez, .contact{
-    flex: 0 0 45%;
-}
-.prez{
-    border-bottom: none;
-    border-right: 2px solid #ccc;
-    padding-right: 20px;
-    margin-left: auto;
-}
-.contact{
-    padding-left: 20px;
-    margin-right: auto;
-}
-.prez a{
-    border: 2px solid transparent;
-}
-.prez a:hover{
-    color: #f28835;
-    background-color: #fff;
-    border: 2px solid #f28835;
-    box-shadow: 0px 0px 20px #666;
-}
-
-.exp-logo{
-    flex: 0 0 10%;
-}
-.exp-info, .exp-desc{
-    flex: 0 0 85%;
-    margin-left: auto;
-}
-
-.interet{
-    flex: 0 1 25%;
+    .prez, .contact{
+        flex: 0 0 45%;
+    }
+    .prez{
+        border-bottom: none;
+        border-right: 2px solid #ccc;
+        padding-right: 20px;
+        margin-left: auto;
+    }
+    .contact{
+        padding-left: 20px;
+        margin-right: auto;
+    }
+    .prez a{
+        border: 2px solid transparent;
+    }
+    .prez a:hover{
+        color: #f28835;
+        background-color: #fff;
+        border: 2px solid #f28835;
+        box-shadow: 0px 0px 20px #666;
+    }
+    .exp-logo{
+        flex: 0 0 10%;
+    }
+    .exp-info, .exp-desc{
+        flex: 0 0 85%;
+        margin-left: auto;
+    }
+    .interet{
+        flex: 0 1 25%;
+    }
 }
