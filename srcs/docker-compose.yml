@@ -5,7 +5,8 @@ services:
     build: ./requirements/nginx
     restart: on-failure
     container_name: ngnix
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "443:443"
     volumes:
@@ -14,18 +15,21 @@ services:
      - wordpress
     networks:
       - my_network
+
   mariadb:
     image: mariadb
     build: ./requirements/mariadb
     restart: on-failure
     container_name: mariadb
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "3306:3306"
     volumes:
      - database_volume:/var/lib/mysql
     networks:
       - my_network
+
   wordpress:
     depends_on:
      - mariadb
@@ -34,52 +38,62 @@ services:
     restart: on-failure
     image: wordpress
     container_name: wordpress
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "9000:9000"
     volumes:
      - wordpress_volume:/var/www/html
     networks:
       - my_network
+
   redis:
     build: ./requirements/bonus/redis
     restart: on-failure
     image: redis
     container_name: redis
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "6379:6379"
     networks:
       - my_network
+
   ftp:
     build: ./requirements/bonus/FTP
-    restart: on-failure
+    restart: always
     image: ftp
     container_name: ftp
-    env_file: .env
+    env_file:
+     - .env
     ports:
+     - "20:20"
      - "21:21"
      - "40000-40005:40000-40005"
     volumes:
-     - wordpress_volume:/var/www/html/wordpress
+     - wordpress_volume:/home/bbrahim/ftp
     networks:
       - my_network
+
   adminer:
     build: ./requirements/bonus/adminer
     restart: on-failure
     image: adminer
     container_name: adminer
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "8080:8080"
     networks:
       - my_network
+
   cadvisor:
     build: ./requirements/bonus/cadvisor
     restart: on-failure
     image: cadvisor
     container_name: cadvisor
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "8081:8080"
     volumes:
@@ -89,19 +103,23 @@ services:
       - "/var/lib/docker/:/var/lib/docker:ro"
     networks:
       - my_network
+
   website:
     build: ./requirements/bonus/website
     restart: on-failure
     image: website
     container_name: website
-    env_file: .env
+    env_file:
+     - .env
     ports:
      - "82:82"
     networks:
       - my_network
+
 networks:
   my_network:
     driver: bridge
+
 volumes:
   wordpress_volume:
     driver: local
