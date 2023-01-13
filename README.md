@@ -43,6 +43,33 @@ Just like virtual machines, containers allow developers to improve CPU and memor
 
 Docker is a software platform that allows you to build, test, and deploy(Deploying an application typically involves moving the application from a development or testing environment to a production environment, where it can be accessed by users.) and scale(Scaling an application, involves increasing or decreasing the number of instances or resources (such as memory and CPU) allocated to the application to handle changing levels of traffic or load.) applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
 
-##  Docker image      
+##  Docker image
+
+It is a kind of ready-to-use software read-only template crafted with source codes, libraries, external dependencies, tools, and other miscellaneous files that are needed for any software application to run successfully on any platform or OS.
+##  Docker Container
+
+![screenshot](/assets/container.png)
+
+A container is nothing but a box that has the ability to run the docker image templates. The moment you create a container using those immutable images you essentially end up creating a read-write copy of that filesystem (docker image) inside the given container. This adds a container layer which helps you to modify the entire copy of the given Docker image. A container can also be considered as a cohesive software unit that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.
 
 ##  How Docker works
+
+Docker packages, provisions and runs containers. Container technology is available through the operating system: A container packages the application service or function with all of the libraries, configuration files, dependencies and other necessary parts and parameters to operate. Each container shares the services of one underlying operating system. Docker images contain all the dependencies needed to execute code inside a container, so containers that move between Docker environments with the same OS work with no changes.
+
+Docker uses resource isolation in the OS kernel to run multiple containers on the same OS. This is different than virtual machines (VMs), which encapsulate an entire OS with executable code on top of an abstracted layer of physical hardware resources.
+
+Docker consists of various components and tools that help create, verify and manage containers.
+
+- Docker Engine
+
+The Docker Engine is the underlying technology that handles the tasks and workflows involved in building container-based applications. The engine creates a server-side daemon process that hosts images, containers, networks and storage volumes. The daemon also provides a client-side command-line interface (CLI) for users to interact with the daemon through the Docker application programming interface. Containers created by Docker are called Dockerfiles. Docker Compose files define the composition of components in a Docker container.
+
+- Docker Hub
+
+Docker Hub is a software-as-a-service tool that enables users to publish and share container-based applications through a common library.
+
+- Docker Compose
+
+Compose is a tool to configure multi-container application services, view container statuses, stream log output and run single-instance processes.
+
+##  How Docker Compose works

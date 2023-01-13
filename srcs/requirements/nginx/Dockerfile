@@ -1,6 +1,8 @@
 FROM debian:buster
 
-RUN apt-get -y update && apt-get -y install nginx
+LABEL maintainer="BOUMLIK BRAHIM <boumlik01brahim@gmail.com>" Description="Ngnix Docker image based on Debian 11"
+
+RUN apt-get -y update && apt-get -y install nginx dumb-init
 
 RUN apt-get install -y openssl
 
@@ -14,5 +16,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 COPY /conf/default /etc/nginx/sites-available/ 
 
 EXPOSE 443
+
+ENTRYPOINT ["/usr/bin/dumb-init"]
 
 CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
