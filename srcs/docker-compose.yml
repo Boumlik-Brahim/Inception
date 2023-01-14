@@ -2,120 +2,112 @@ version: '3.7'
 
 services:
   ngnix:
-    image: ngnix
     build: ./requirements/nginx
-    restart: on-failure
     container_name: ngnix
+    restart: always
+    depends_on:
+     - wordpress
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "443:443"
     volumes:
      - wordpress_volume:/var/www/html
-    depends_on:
-     - wordpress
-    networks:
-      - my_network
 
   mariadb:
-    image: mariadb
     build: ./requirements/mariadb
-    restart: on-failure
     container_name: mariadb
+    restart: on-failure
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "3306:3306"
     volumes:
      - database_volume:/var/lib/mysql
-    networks:
-      - my_network
 
   wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    restart: on-failure
     depends_on:
      - mariadb
      - redis
-    build: ./requirements/wordpress
-    restart: on-failure
-    image: wordpress
-    container_name: wordpress
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "9000:9000"
     volumes:
      - wordpress_volume:/var/www/html
-    networks:
-      - my_network
 
   redis:
     build: ./requirements/bonus/redis
-    restart: on-failure
-    image: redis
     container_name: redis
+    restart: on-failure
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "6379:6379"
-    networks:
-      - my_network
 
   ftp:
     build: ./requirements/bonus/FTP
-    restart: always
-    image: ftp
     container_name: ftp
+    restart: always
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "20:20"
      - "21:21"
      - "40000-40005:40000-40005"
     volumes:
      - wordpress_volume:/home/bbrahim/ftp
-    networks:
-      - my_network
 
   adminer:
     build: ./requirements/bonus/adminer
-    restart: on-failure
-    image: adminer
     container_name: adminer
+    restart: on-failure
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "8080:8080"
-    networks:
-      - my_network
 
   cadvisor:
     build: ./requirements/bonus/cadvisor
-    restart: on-failure
-    image: cadvisor
     container_name: cadvisor
+    restart: on-failure
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "8081:8080"
     volumes:
-      - "/:/rootfs:ro"
-      - "/var/run:/var/run:rw"
-      - "/sys:/sys:ro"
-      - "/var/lib/docker/:/var/lib/docker:ro"
-    networks:
-      - my_network
+     - "/:/rootfs:ro"
+     - "/var/run:/var/run:rw"
+     - "/sys:/sys:ro"
+     - "/var/lib/docker/:/var/lib/docker:ro"
 
   website:
     build: ./requirements/bonus/website
-    restart: on-failure
-    image: website
     container_name: website
+    restart: on-failure
     env_file:
      - .env
+    networks:
+     - my_network
     ports:
      - "82:82"
-    networks:
-      - my_network
 
 networks:
   my_network:

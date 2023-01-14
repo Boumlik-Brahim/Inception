@@ -164,3 +164,53 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 - Docker Compose file structure
 
 - How Docker Compose works
+
+    Docker Compose files work by applying mutiple commands that are declared within a single docker-compose.yml configuration file.
+
+1. **`version`**:
+
+    The version field in the docker-compose.yml file specifies the version of the docker-compose file format that is being used. This field is optional but recommended, as it allows docker-compose to check compatibility with the version of the tool that you are using.
+
+    The general syntax for the version field in the docker-compose.yml file is: `version: <version_number>`
+
+    If you don't specify a version number in your docker-compose.yml file, docker-compose will use the latest version of the file format that is compatible with the version of docker-compose that you are using.
+
+    It's a good practice to specify the version number of the file format in the docker-compose.yml file to ensure compatibility with the version of docker-compose that you are using and also to make it clear which version of the file format is being used.
+
+2. **`services`**:
+
+    In a docker-compose.yml file, the services field is used to define the services that are part of the application. Each service is a container that runs a specific process or set of processes. Each service can be configured with its own options and settings.
+
+    The general syntax for the services field in the docker-compose.yml file is:
+
+    `services:`
+    
+            <service_name_1>:
+                <service_options_1>
+
+    Each service can have its own options like build, image, ports, environment, volumes, depends_on, etc. These options can be used to configure the service according to your needs.
+
+3. **`build`**:
+
+    In a docker-compose.yml file, the build field is used to specify the build context that should be used to build a custom image for a service. The build context can be a directory or a git repository containing a Dockerfile and the files needed to build the image.
+
+    The general syntax for the build field in the docker-compose.yml file is:
+
+    `services:`
+
+        <service_name>:
+            build: <path_to_build_context>
+
+4. **`container_name`**:
+
+    In a docker-compose.yml file, the container_name field is used to specify the name that should be given to a container when it is created by docker-compose.
+
+    The general syntax for the container_name field in the docker-compose.yml file is:
+
+    `services:`
+
+        <service_name>:
+            container_name: <container_name>
+
+5. **`restart`**:
+
