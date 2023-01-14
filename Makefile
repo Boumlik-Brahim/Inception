@@ -24,7 +24,11 @@ down:
 
 clean: down
 	docker volume rm $$(docker volume ls -q);\
+	rm -rf /Users/bbrahim/Desktop/data;\
+
+fclean: down
+	docker volume rm $$(docker volume ls -q);\
 	docker system prune -a -f;\
 	rm -rf /Users/bbrahim/Desktop/data;\
 
-.PHONY: build run stop clean
+.PHONY: build run stop clean fclean

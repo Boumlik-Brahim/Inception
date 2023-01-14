@@ -8,20 +8,18 @@ RUN apt-get update && apt-get install -y \
     php \
     php-mysql \
     libapache2-mod-php \
-    dumb-init
+    dumb-init; \
+    cd /var/www/html; rm -rf *; \
+    wget https://www.adminer.org/latest.php -O /var/www/html/index.php;
 
-RUN cd /var/www/html; rm -rf *;
+COPY ./conf/apache2.conf ./etc/apache2/apache2.conf
 
-RUN wget https://www.adminer.org/latest.php -O /var/www/html/index.php
-
-COPY ./conf/apache2.conf /etc/apache2/apache2.conf
-
-COPY ./conf/ports.conf /etc/apache2/ports.conf
+COPY ./conf/ports.conf ./etc/apache2/ports.conf
 
 RUN service apache2 restart
 
 EXPOSE 80
 
-ENTRYPOINT ["/usr/bin/dumb-init"]
+ENTRYPOINT ["/usr/bin/dumb-init", "apache2ctl"]
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["-D", "FOREGROUND"]

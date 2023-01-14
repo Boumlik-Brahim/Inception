@@ -8,12 +8,12 @@ EXPOSE 82
 
 COPY ./tools ./var/www/html
 
-COPY ./conf/apache2.conf /etc/apache2/apache2.conf
+COPY ./conf/apache2.conf ./etc/apache2/apache2.conf
 
-COPY ./conf/ports.conf /etc/apache2/ports.conf
+COPY ./conf/ports.conf ./etc/apache2/ports.conf
 
 RUN service apache2 restart
 
-ENTRYPOINT ["/usr/bin/dumb-init"]
+ENTRYPOINT ["/usr/bin/dumb-init", "/usr/sbin/apache2ctl"]
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+CMD ["-D", "FOREGROUND"]
