@@ -214,3 +214,112 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 5. **`restart`**:
 
+In a docker-compose.yml file, the restart field is used to configure the behavior of a service's container when it exits or stops.
+
+The general syntax for the restart field in the docker-compose.yml file is:
+    `services:`
+
+        <service_name>:
+            restart: <policy>
+
+where <policy> can be one of the following options:
+
+- no: The container will not automatically restart when it exits or stops. This is the default behavior(This policy is good for one-off tasks or for containers that are only meant to run for a short period of time).
+
+- always: The container will always be restarted automatically if it exits or stops(This policy is good for services that are critical to the operation of your application and should always be running. It can be useful for stateless services, such as web servers, that can quickly recover from failures).
+
+- on-failure: The container will be restarted automatically if it exits with a non-zero exit code(This policy is good for services that are important to the operation of your application, but don't need to be running all the time. It can be useful for stateful services, such as databases, that may take longer to recover from failures).
+
+- unless-stopped: The container will always be restarted automatically unless it is explicitly stopped(This policy is good for services that are critical to the operation of your application and should always be running unless explicitly stopped).
+
+A good practice is to start with the on-failure policy and monitor the container's behavior, if the container is frequently failing, it's a sign that the service is not stable and you should consider using another policy such as always or unless-stopped.
+
+6. **`env_file`**:
+
+The env_file field in a docker-compose.yml file is used to specify one or more environment files that should be loaded to provide environment variables for a service's container.
+
+The general syntax for the env_file field in the docker-compose.yml file is:
+    `services:`
+
+        <service_name>:
+            env_file:
+                - <path_to_env_file1>
+
+Environment files are plain text files that contain key-value pairs of environment variables, one per line, in the format VARIABLE=value.
+
+7. **`networks`**:
+
+The networks field in a docker-compose.yml file is used to specify the networks that a service should be connected to.
+
+The general syntax for the networks field in the docker-compose.yml file is:
+    `services:`
+
+        <service_name>:
+            networks:
+                - <network_name1>
+            
+Before you connect a service to a network, the network should be defined in the docker-compose.yml file or created before running the docker-compose up command.
+
+You can also use the default network that is created automatically by docker-compose if you don't specify any network for your service.
+
+- Define a network in docker-compose.yml:
+
+In a docker-compose.yml file, networks can be defined under the networks key at the top-level of the file. where you can specify the network name and the network driver options. you can also set some options like subnet and ip range for the network.
+    `networks:`
+
+        <network_name>:
+            <network_driver_options>
+
+- Network driver options:
+
+In a docker-compose.yml file, the network_driver_options for a network can vary depending on the network driver you are using.
+
+The most common network drivers are:
+
+- bridge: This is the default network driver and it creates a virtual network that connects containers on the same host together.
+
+- host: This network driver allows the container to use the host's network stack. It does not create a separate network namespace for the container, so it shares the host's network interfaces.
+
+- overlay: This network driver creates a virtual network that spans multiple hosts, allowing containers to communicate with each other across hosts.
+
+- macvlan: This network driver allows the container to have its own MAC address on the host's network, making it appear as a physical device on the network.
+
+8. **`ports`**:
+
+The ports(A port is a logical endpoint for network communication in a computer operating system) field in a docker-compose.yml file is used to specify the port mappings(Port mapping refers to the process of forwarding a port from a host machine to a container. In other words, it allows the container to receive incoming network traffic on a specific port of the host machine. This enables the container to be accessed from outside the host machine) between the host and the container.
+
+The general syntax for the ports field in the docker-compose.yml file is:
+    `services:`
+
+        <service_name>:
+            ports:
+                - "<host_port>:<container_port>"
+
+It's worth noting that if you don't specify a host port, Docker will automatically assign one.
+
+9. **`volumes`**:
+
+The volumes field in the docker-compose.yml file is used to specify the volumes that will be mounted to the container. A volume is a way to store data outside of a container's filesystem. This allows the data to persist even if the container is deleted, and also allows for sharing data between containers.
+
+The general syntax for the volumes field is:
+    `volumes:`
+
+        - <host_path>:<container_path>
+
+The <host_path> is the path on the host machine where the data will be stored, and <container_path> is the path inside the container where the data will be mounted.
+
+- Define a volume in docker-compose.yml:
+    `volumes:`
+
+        <container_path>:
+            driver: local
+            driver_opts:
+                type: none
+                device: /Users/bbrahim/Desktop/data/wordpress_volume
+                o: bind
+
+The <container_path> is the path inside the container where the data will be mounted, and the driver field specifies the type of volume to use.
+
+driver:In Docker, a volume driver is a plugin that provides the underlying functionality for a specific type of volume. The volume driver is specified when a volume is created, and it determines how the volume is stored and accessed.
+
+Local: This is the default volume driver, it uses the local filesystem of the host to store the data.
