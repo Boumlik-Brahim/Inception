@@ -9,8 +9,6 @@ RUN apt-get -y update && apt-get -y install nginx dumb-init; \
     -out /etc/ssl/certs/bbrahim.crt \
     -subj "/C=MA/ST=Khouribga/L=Khouribga/O=Inception/OU=IT/CN=localhost/emailAddress=bbrahim@student.1337.ma";
 
-# RUN rm /etc/nginx/sites-available/default
-
 COPY ./conf/default ./etc/nginx/sites-available/ 
 
 EXPOSE 443

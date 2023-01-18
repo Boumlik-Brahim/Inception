@@ -8,7 +8,7 @@ EXPOSE 3306
 
 COPY ./conf/create_db.sql ./
 
-COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/50-server.cnf ./etc/mysql/mariadb.conf.d/50-server.cnf
 
 RUN service mysql start && mysql -uroot < create_db.sql
 

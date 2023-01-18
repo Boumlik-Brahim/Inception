@@ -314,12 +314,240 @@ The <host_path> is the path on the host machine where the data will be stored, a
         <container_path>:
             driver: local
             driver_opts:
-                type: none
                 device: /Users/bbrahim/Desktop/data/wordpress_volume
                 o: bind
 
 The <container_path> is the path inside the container where the data will be mounted, and the driver field specifies the type of volume to use.
 
-driver:In Docker, a volume driver is a plugin that provides the underlying functionality for a specific type of volume. The volume driver is specified when a volume is created, and it determines how the volume is stored and accessed.
+- driver:In Docker, a volume driver is a plugin that provides the underlying functionality for a specific type of volume. The volume driver is specified when a volume is created, and it determines how the volume is stored and accessed.
 
-Local: This is the default volume driver, it uses the local filesystem of the host to store the data.
+- Local: This is the default volume driver, it uses the local filesystem of the host to store the data.
+
+- driver_opts:The driver_opts field in the docker-compose.yml file is used to specify additional options for a volume driver. These options depend on the specific volume driver in use.
+
+- device:The device option in the driver_opts field is used to specify the path to the device where the volume should be created.
+
+- o: bind:is specifying that the volume should be mounted as a bind mount. A bind mount allows you to mount a host directory as a data volume in a container. This means that the files in the host directory are directly accessible within the container, and any changes made to the files within the container will be reflected in the host directory as well.
+
+- The difference between a docker image used with docker-compose and without docker-compose:
+
+When using Docker Compose, a single docker-compose.yml file is used to define the services, networks, and volumes that make up an application. This file is used to configure the containers that are created from the images specified in the file, and to start and stop those containers as a group. On the other hand, when using a Docker image without Docker Compose, the image is used to create and run individual containers. This means that the configuration and startup of each container must be done manually, typically using the docker run command.
+
+- The pertinence of directory structure in docker:
+
+The directory structure in a Docker project is important because it helps to keep the project organized and maintainable. A well-organized directory structure can make it easier to understand how the project is put together, and can help to reduce the risk of errors or confusion when building and deploying the project. A common practice is to have a single root directory for the entire project, with sub-directories for each part of the project such as "Dockerfile" for the Dockerfile, "src" for the application's source code and "config" for the configuration files.
+It is also a good practice to keep the files related to each service in separate directories. This way, you can easily find the files you need to work on and maintain, and it also makes it easy to reuse the services in multiple projects.
+
+##  Nginx
+
+NGINX (pronounced "engine-x") is a web server(A web server is a software or hardware system that is responsible for accepting HTTP requests from clients, such as web browsers, and returning the corresponding web pages or other resources in response) and reverse proxy server. It is known for its high performance and low resource consumption. NGINX is typically used to serve static files, handle HTTP requests, and act as a reverse proxy for other web servers such as Apache or Node.js. NGINX can also be used to load balance requests between multiple servers, and it can also be configured to act as a caching server to improve the performance of dynamic web applications. NGINX is widely used in production environments, and is known for its stability and reliability. It is also commonly used as a reverse proxy for containerized applications, such as those deployed with Docker.
+
+- Reverse proxy server:
+
+A reverse proxy server is a type of proxy server that sits behind the firewall in a private network, and directs client requests to the appropriate backend server. The primary purpose of a reverse proxy is to hide the identity of the servers behind it, and to handle tasks such as SSL termination, load balancing, and caching.
+
+When a client makes a request to a website or application, the request is first sent to the reverse proxy server, which then forwards the request to the appropriate backend server. The reverse proxy server may also perform various tasks such as SSL termination, load balancing, and caching, before forwarding the request to the backend server.
+
+The backend servers can be web servers, application servers, or other types of servers, and they can be located on-premises or in the cloud. The reverse proxy server acts as an intermediary between the client and the backend servers, and it can be used to improve the security, scalability, and performance of the overall system.
+
+- SSL:
+
+SSL stands for Secure Sockets Layer and, in short, it's the standard technology for keeping an internet connection secure and safeguarding any sensitive data that is being sent between two systems, preventing criminals from reading and modifying any information transferred, including potential personal details. The two systems can be a server and a client (for example, a shopping website and browser) or server to server (for example, an application with personal identifiable information or with payroll information).
+
+It does this by making sure that any data transferred between users and sites, or between two systems remain impossible to read. It uses encryption algorithms to scramble data in transit, preventing hackers from reading it as it is sent over the connection. This information could be anything sensitive or personal which can include credit card numbers and other financial information, names and addresses.
+
+TLS (Transport Layer Security) is just an updated, more secure, version of SSL.
+
+- TLS:
+
+TLS (Transport Layer Security) is a cryptographic protocol that provides secure communication over networks, particularly the Internet. It is designed to ensure the confidentiality, integrity, and authenticity of data transmitted over networks, and protect against tampering and eavesdropping.
+
+The main goal of TLS is to establish a secure and private channel between two parties (e.g., a client and a server) for the exchange of information. It does this by using a combination of encryption, authentication, and integrity-checking techniques.
+
+TLS uses a combination of public key and symmetric key cryptography to secure data transmission. It uses a public key infrastructure (PKI) system to establish trust and secure communications. The server sends its public key to the client, which uses it to encrypt the message, only the server can decrypt it using the private key.
+
+TLS uses a series of steps to establish a secure connection between a client and a server. The steps are called a "handshake" and include the following:
+
+- The client sends a request for a secure connection to the server.
+- The server sends its digital certificate, which includes its public key, to the client.
+- The client verifies the server's digital certificate and extracts the server's public key.
+- The client generates a random number, called the "pre-master secret," and encrypts it with the server's public key.
+- The server decrypts the pre-master secret using its private key and generates a master secret.
+- Both the client and the server use the master secret to generate session keys, which are used to encrypt and decrypt data.
+
+Once the secure connection is established, the client and the server can exchange data securely.
+
+- OpenSSL:
+
+OpenSSL is a widely-used open-source implementation of the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols. It provides a library of cryptographic functions and an extensive command-line tool set for working with SSL/TLS certificates and private keys, encryption and decryption, and more. OpenSSL is commonly used to secure communications between web servers and clients, to generate SSL/TLS certificates, and to provide secure key exchange and encryption for other network services. It is also frequently used as a general-purpose cryptographic library in a wide range of applications.
+
+- req: used to generate a certificate signing request (CSR)
+- x509: tells OpenSSL to create a self-signed certificate instead of generating a CSR to be signed by a certificate authority.
+- nodes: option tells OpenSSL to not encrypt the private key
+- days 365: specifies the number of days the certificate will be valid for.
+- newkey rsa:2048: option specifies the type and size of the key pair to be generated.
+- keyout: option specifies the file to which the private key should be written.
+- out: option specifies the file to which the certificate should be written.
+- subj: option sets the X.509 subject name of the certificate, including the country, state, location, organization, organizational unit, common name (hostname), and email address.
+
+- Nginx configuration:
+
+        server 
+        {
+            listen 443 http2 ssl;
+            - listen on port 443 for incoming connections using the HTTP/2 protocol and the Secure Sockets Layer (SSL) protocol.
+            listen [::]:443 http2 ssl;
+            - listen on port 443 for incoming connections on the IPv6 address using (SSL) protocol.
+
+            root /var/www/html/;
+            - The root directive sets the root directory to /var/www/html/, meaning that files in this directory will be served when requested by clients.
+            index index.php index.html index.htm;
+            - The index directive sets the default index files to index.php, index.html, and index.htm, in that order.
+
+            ssl_certificate /etc/ssl/certs/bbrahim.crt;
+            - The ssl_certificate directive specifies the location of the SSL certificate file that will be used for the HTTPS connection.
+            ssl_certificate_key /etc/ssl/private/bbrahim.key;
+            - The ssl_certificate_key directive specifies the location of the private key for the SSL certificate.
+            ssl_protocols TLSv1.3;
+            - The ssl_protocols directive specifies which SSL/TLS protocol versions should be enabled for the connection.
+
+            server_name $DOMAIN_NAME www.bbrahim.42.fr;
+            - The "server_name" directive specifies the domain name(s) that this server block should respond to.
+            location / {
+                try_files $uri $uri/ /index.php?$args;
+            }
+            - The location directive specifies the location of the root directory and the index files.
+            - The try_files directive is used to check if a requested file or directory exists, if not it rewrites the request to /index.php?$args. This is used to handle requests for PHP files, so that they are passed to the PHP-FPM process for handling.
+
+            location ~ \.php$ {
+                try_files $uri =404;
+                include /etc/nginx/fastcgi_params;
+                fastcgi_pass wordpress:9000;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_index index.php;
+            }
+            - The location block with the regular expression \.php$ is used to handle requests for PHP files.
+            - the try_files directive is used to check for the existence of the requested file, and if it is not found, it returns a 404 error.
+            - The include /etc/nginx/fastcgi_params directive includes the default fastcgi_params file, which contains various parameters for the fastcgi process.
+            - The fastcgi_pass directive specifies the backend server to which the request should be passed, in this case wordpress:9000, which is the name of the service and the port on which it is listening.
+            - The fastcgi_param directive sets the SCRIPT_FILENAME parameter, which is the path to the PHP script that should be executed.
+            - The fastcgi_index directive sets the default index file, which is index.php.
+        }
+
+##  WordPress
+
+WordPress is a free and open-source content management system (CMS) based on PHP and MySQL.
+
+- Curl:
+
+curl is a command-line tool that allows you to transfer data using various protocols, such as HTTP, HTTPS, FTP, and more. It supports a wide range of options for configuring the request, such as setting headers, customizing the request method, and sending data in the request body. It is commonly used for interacting with web services, testing web applications, and automating file transfers.
+
+- wp-cli:
+
+wp-cli is a command line interface for WordPress. It allows users to manage their WordPress sites through the command line, perform updates, manage plugins and themes, and perform other tasks. It is built on top of the WordPress codebase and can be used to automate various tasks, such as creating posts and pages, managing users, and managing comments.
+
+- php-fpm
+
+php-fpm (FastCGI Process Manager) is an extension for PHP that allows PHP scripts to be executed by a web server using the FastCGI protocol. It is designed to improve the performance and scalability of PHP-based web applications by running multiple PHP processes in the background and handling requests through a single, stable interface. This allows for better resource utilization and can help to reduce the impact of PHP script execution on web server performance.
+
+- php-mysql
+
+php-mysql is a package that allows the PHP 7.3 programming language to interact with the MySQL database server. It provides the necessary libraries and modules for PHP to connect to and execute queries on a MySQL server. This package is typically used in web development, as many web applications (such as WordPress) use PHP as the server-side programming language and MySQL as the database management system.
+
+- FastCGI
+
+FastCGI (Fast Common Gateway Interface) is a protocol that allows web servers to communicate with web applications or scripts, such as PHP, Ruby, or Python. It is an alternative to the more commonly used CGI (Common Gateway Interface) protocol. The main difference between the two is that FastCGI keeps a pool of processes running, which allows for faster and more efficient handling of multiple requests. This eliminates the need to start a new process for each incoming request, which reduces the overhead and improves the performance of the web application. Additionally, FastCGI also supports running multiple versions of the same application or script, which is useful for testing or upgrading.
+
+- WordPress configuration:
+
+        #!/bin/bash
+        wp core download --path=/var/www/html --allow-root
+        - The wp core download command is used to download the latest version of WordPress to a specified directory, in this case /var/www/html. The --path option allows you to specify the directory where WordPress will be installed, and the --allow-root flag allows the command to be run as the root user.
+
+        rm -rf /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+        - This command is used to remove the files "wp-config-sample.php" and "wp-config.php" from the directory "/var/www/html/". 
+
+        chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+        - The first command, chown -R www-data:www-data /var/www/html, changes the ownership of the /var/www/html directory and all its contents to the www-data user and group.
+        - The second command, chmod -R 755 /var/www/html, changes the permissions of the /var/www/html directory and all its contents to 755(The permissions 755 mean that the owner has read, write, and execute permissions and others have only read and execute permissions).
+        - The -R flag is used to change the ownership recursively for all files and directories inside /var/www/html.
+
+        wp config create --dbname=$DB_NAME \
+                        --dbuser=$DB_USER_NAME \
+                        --dbpass=$DB_USER_PASS \
+                        --dbhost=$HOST\
+                        --skip-check \
+                        --path=/var/www/html/ \
+                        --allow-root \
+        - This command is used to create a configuration file for WordPress using the WP-CLI command-line tool. It creates a wp-config.php file in the specified path "/var/www/html/" with the following parameters:
+            - dbname: the name of the database to be used
+            - dbuser: the username for the database
+            - dbpass: the password for the database
+            - dbhost: the hostname or IP address of the database server
+            - skip-check: skips the database connection test
+            - path: the path to the WordPress installation
+            - allow-root: allows the command to be run as the root user
+                        --extra-php<<PHP
+        define('WP_CACHE', true);
+        define('WP_REDIS_HOST', 'redis');
+        define( 'WP_REDIS_PORT', 6379 );
+        define( 'WP_REDIS_TIMEOUT', 1 );
+        define( 'WP_REDIS_READ_TIMEOUT', 1 );
+        define( 'WP_REDIS_DATABASE', 0 );
+        PHP
+        - The --extra-php option allows you to add additional PHP code to the generated wp-config.php file.
+            - WP_CACHE is set to true to enable caching.
+            - WP_REDIS_HOST is set to redis to specify the hostname of the Redis server.
+            - WP_REDIS_PORT is set to 6379 which is the default port for Redis.
+            - WP_REDIS_TIMEOUT and WP_REDIS_READ_TIMEOUT are set to 1 to specify the timeout for connecting to Redis in seconds.
+            - WP_REDIS_DATABASE is set to 0 to specify the Redis database to use.
+
+        wp core install --url=$DOMAIN_NAME \
+                        --title="Inception" \
+                        --admin_name=bbrahim \
+                        --admin_password=admin@42 \
+                        --admin_email=bbrahim@student.1337.ma --path=/var/www/html/ --allow-root
+        - The command wp core install is used to install the WordPress core files, and set up the initial configuration for a new WordPress site.
+            - `--url=$DOMAIN_NAME` is used to set the URL of the website, which will be used to access the site.
+            - `--title="Inception"` sets the title of the website.
+            - `--admin_name=bbrahim` sets the username for the administrator account of the website.
+            - `--admin_password=admin@42` sets the password for the administrator account of the website.
+            - `--admin_email=bbrahim@student.1337.ma` sets the email address for the administrator account of the website.
+            - `--path=/var/www/html/` specifies the path where the WordPress files are located.
+            - `--allow-root` allows the command to be executed with root privileges.
+
+        wp user create boumlikbrahim \
+                        boumlikbrahim@student.1337.ma \
+                        --role=author \
+                        --user_pass=wpuser@123 \
+                        --allow-root \
+                        --path=/var/www/html/
+        - This command creates a new user on the WordPress website with the username "boumlikbrahim", email "boumlikbrahim@student.1337.ma", and password "wpuser@123". The user is given the role "author" and the command is executed on the WordPress installation located in the directory "/var/www/html/".
+
+        service php7.3-fpm start
+        - The service php7.3-fpm start command is used to start the PHP 7.3 FastCGI Process Manager (php-fpm) service. 
+
+        wp plugin install redis-cache --path=/var/www/html --activate --allow-root
+        - The command used to install and activate the Redis Cache plugin for WordPress.
+            - The "--path" flag specifies the path to the WordPress installation.
+            - "--activate" tells the command to activate the plugin after it has been installed.
+
+        wp redis enable --path=/var/www/html/ --allow-root
+        - Is used to enable the Redis caching plugin for a WordPress installation located at the specified path "/var/www/html/".
+
+        service php7.3-fpm stop
+        - The service php7.3-fpm stop command is used to stop the PHP 7.3 FastCGI Process Manager (php-fpm) service. 
+
+        php-fpm7.3 -F
+        - Is used to run the PHP-FPM (FastCGI Process Manager) service in the foreground. The -F option tells PHP-FPM to run in the foreground, rather than as a daemon process in the background.
+
+##  Mariadb
+
+MariaDB is a database(A database is a place to store information that you can quickly retrieve and use where you need it). MariaDB is very similar to MySQL (a database management system) and, in fact, a fork to MySQL. The MariaDB database is used for various purposes such as data warehousing, e-commerce, enterprise-level features, and logging applications.
+
+- Database creation:
+
+        CREATE DATABASE IF NOT EXISTS ma_base;
+        CREATE USER 'bbrahim' IDENTIFIED BY 'user42';
+        GRANT ALL PRIVILEGES ON ma_base.* TO 'bbrahim'@'%';
+        ALTER USER 'root'@'localhost' IDENTIFIED BY 'root42';

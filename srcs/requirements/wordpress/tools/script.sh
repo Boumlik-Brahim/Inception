@@ -21,11 +21,13 @@ define( 'WP_REDIS_READ_TIMEOUT', 1 );
 define( 'WP_REDIS_DATABASE', 0 );
 PHP
 
-wp core install --url=bbrahim.42.fr \
+wp core install --url=$DOMAIN_NAME \
                 --title="Inception" \
                 --admin_name=bbrahim \
                 --admin_password=admin@42 \
-                --admin_email=bbrahim@student.1337.ma --path=/var/www/html/ --allow-root
+                --admin_email=bbrahim@student.1337.ma \
+                --path=/var/www/html/ \
+                --allow-root
 
 wp user create boumlikbrahim \
                 boumlikbrahim@student.1337.ma \
