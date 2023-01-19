@@ -548,6 +548,52 @@ MariaDB is a database(A database is a place to store information that you can qu
 - Database creation:
 
         CREATE DATABASE IF NOT EXISTS ma_base;
+        - Creates a new database named "ma_base" if it does not already exist.
+        - The "IF NOT EXISTS" clause is used to prevent an error from being generated if a database with the same name already exists.
         CREATE USER 'bbrahim' IDENTIFIED BY 'user42';
+        - Creates a new user named "bbrahim" with the password "user42" in MySQL.
         GRANT ALL PRIVILEGES ON ma_base.* TO 'bbrahim'@'%';
+        - The "GRANT" statement which is used to grant privileges to a user.
+        - The "ALL PRIVILEGES" option grants all available privileges on the specified object, in this case, the "ma_base" database.
+        - The ".*" after the database name means that all tables within the "ma_base" database are included.
+        - The "TO" clause is followed by the user that the privileges are being granted to, in this case, 'bbrahim'.
+        - The "@" sign is used to specify the hostname that the user is connecting from. In this case, the hostname is '%' which means that the user can connect from any host, it is a wildcard that matches any hostname.
         ALTER USER 'root'@'localhost' IDENTIFIED BY 'root42';
+        - The "ALTER USER" statement is used to modify an existing user account.
+        - The "IDENTIFIED BY" clause is used to set the new password for the user.
+
+##  Adminer
+
+Adminer is a simple, lightweight and easy-to-use database management tool written in PHP. It is an alternative to other popular database management tools such as phpMyAdmin and MySQL Workbench.
+
+- apache2
+
+Apache HTTP Server, commonly known as Apache, is a free and open-source web server software that is widely used to host websites and web applications.
+
+- php
+
+php is the core package that provides the PHP interpreter and runtime. It is used to process PHP scripts and execute the PHP code.
+
+- php-mysql
+
+php-mysql is a package that provides a set of PHP extensions for working with MySQL databases. It allows PHP scripts to connect to MySQL servers, execute SQL commands, and retrieve results.
+
+- libapache2-mod-php
+
+libapache2-mod-php is an Apache module that allows Apache to process PHP scripts. It embeds the PHP interpreter into the Apache process, allowing PHP code to be executed directly by the web server. This allows for much faster performance than using a separate PHP interpreter through CGI or FastCGI.
+
+These packages are typically installed together to run PHP web applications on an Apache server. Once the packages are installed, the Apache web server can be configured to process PHP scripts.
+
+- wget
+
+wget is a command-line utility for downloading files from the internet. It supports various protocols including HTTP, HTTPS, and FTP. It can be used to download files from the command line or through shell scripts.
+
+##  Redis cache
+
+Redis (Remote Dictionary Server) is an in-memory data structure store that can be used as a caching system. It is an open-source, networked, in-memory, key-value data store with optional durability. It is often used as a caching layer in web applications to speed up data access and reduce the load on the database.
+
+- caching layer
+
+A caching layer in web applications is a system that stores frequently accessed data in a fast, in-memory storage system. This allows the web application to quickly retrieve the data, rather than having to fetch it from a slower, disk-based storage system such as a database. Caching can greatly improve the performance of web applications by reducing the number of requests to the database and the amount of data that needs to be transferred over the network.
+
+Caching layers in web applications typically work by storing a copy of the data that is frequently accessed in memory. When a request for that data is made, the caching layer checks to see if the data is already in memory. If it is, the caching layer returns the data from memory, rather than fetching it from the database. This reduces the load on the database and improves the performance of the web application.
