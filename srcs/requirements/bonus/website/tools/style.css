@@ -1,4 +1,4 @@
-/*STYLES GENERAUX*/
+/*Generale STYLE*/
 *{
     font-family: Avenir, sans-serif;
     padding: 0px;
@@ -35,7 +35,6 @@ header h1{
     width: 90%;
     margin: 0 auto;
 }
-
 footer{
     border-top: 2px solid #fff;
 }
@@ -60,7 +59,6 @@ section{
     box-shadow: 0px 0px 10px #bbb;
     background-color: #fff;
 }
-
 section h2{
     margin: 20px 0;
     width: 90%;
@@ -199,6 +197,7 @@ section > div{
     border-radius: 5px;
     background-color: grey;
 }
+
 /*SECTION INTERETS*/
 .interet{
     flex: 0 1 50%;
@@ -214,12 +213,8 @@ section > div{
     box-shadow: 0px 0px 15px #555;
 }
 
-/*VERSION BUREAU DU CV*/
+/*VERSION DESKTOP OF RESUME*/
 @media screen and (min-width: 980px){
-    /* section{
-        width: 80%;
-        box-shadow: 0px 0px 10px #bbb;
-    } */
     a:hover{
         color: #EA0;
     }

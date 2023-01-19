@@ -69,8 +69,6 @@ services:
     image: redis
     container_name: redis
     restart: on-failure
-    env_file:
-     - .env
     networks:
      - my_network
     ports:
@@ -97,8 +95,6 @@ services:
     image: adminer
     container_name: adminer
     restart: on-failure
-    env_file:
-     - .env
     networks:
      - my_network
     ports:
@@ -109,12 +105,10 @@ services:
     image: cadvisor
     container_name: cadvisor
     restart: on-failure
-    env_file:
-     - .env
     networks:
      - my_network
     ports:
-     - "8081:8081"
+     - "8081:8080"
     volumes:
      - "/:/rootfs:ro"
      - "/var/run:/var/run:rw"
@@ -126,8 +120,6 @@ services:
     image: website
     container_name: website
     restart: on-failure
-    env_file:
-     - .env
     networks:
      - my_network
     ports:

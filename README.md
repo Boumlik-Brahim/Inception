@@ -75,6 +75,9 @@ The Docker Engine is the underlying technology that handles the tasks and workfl
 
 Docker Hub is a software-as-a-service tool that enables users to publish and share container-based applications through a common library.
 
+- Docker Network
+- Docker Volume
+
 - Dockerfiles
 
 Dockerfiles are how we containerize our application, or how we build a new container from an already pre-built image and add custom logic to start our application. From a Dockerfile, we use the Docker build command to create an image.Think of a Dockerfile as a text document that contains the commands we call on the command line to build an image.
@@ -597,3 +600,107 @@ Redis (Remote Dictionary Server) is an in-memory data structure store that can b
 A caching layer in web applications is a system that stores frequently accessed data in a fast, in-memory storage system. This allows the web application to quickly retrieve the data, rather than having to fetch it from a slower, disk-based storage system such as a database. Caching can greatly improve the performance of web applications by reducing the number of requests to the database and the amount of data that needs to be transferred over the network.
 
 Caching layers in web applications typically work by storing a copy of the data that is frequently accessed in memory. When a request for that data is made, the caching layer checks to see if the data is already in memory. If it is, the caching layer returns the data from memory, rather than fetching it from the database. This reduces the load on the database and improves the performance of the web application.
+
+##  FTP server
+
+File Transfer Protocol (FTP) is a standard network protocol used to transfer files between computers on a private or public network. FTP is a client-server protocol, where an FTP client establishes a connection to an FTP server and then uploads or downloads files to or from the server.
+
+- FTP uses two channels to transfer files:
+
+    -   Control channel: used to establish a connection, authenticate the user and to send commands between the client and the server.
+    -   Data channel: used to transfer the actual data between the client and the server.
+
+FTP clients are widely available for different platforms, such as Windows, Linux, and macOS, examples of popular FTP client is: FileZilla
+
+- How FTP work:
+
+The basic process of using FTP to transfer files is as follows:
+
+1. The FTP client establishes a connection with the FTP server by sending a connection request to the server's IP address and port number (usually port 21).
+
+2. Once the connection is established, the client sends an authentication request to the server by providing a username and password. The server checks the credentials and sends an acknowledgement if the authentication is successful.
+
+3. After successful authentication, the client can use a set of FTP commands to interact with the server. For example, the client can use the "ls" command to list the files in the current directory, or the "get" command to download a file from the server.
+
+4. To upload a file to the server, the client uses the "put" command, and to delete a file, the client uses the "delete" command.
+
+5. Once the client is done with the file transfer, it sends a "quit" command to the server to close the connection.
+
+- FTP connection modes:
+
+1. Active mode:
+
+    -   In this mode, the FTP client establishes a connection to the server's control port (usually port 21) and initiates a data transfer by sending a PORT command to the server.
+    -   The server then establishes a connection with the client's data port (specified in the PORT command) to transfer the data.
+    -   This mode is less secure because the client's IP address and port number are sent in the clear over the control channel, which could be intercepted by an attacker.
+
+2. Passive mode:
+
+    -   In this mode, the FTP client establishes a connection to the server's control port (usually port 21) and initiates a data transfer by sending a PASV command to the server.
+    -   The server responds with the IP address and port number that the client should use to establish a data connection.
+    -   The client then establishes a connection to the specified IP address and port number to transfer the data.
+    -   This mode is more secure because the client's IP address and port number are not sent in the clear over the control channel, so it's less likely to be intercepted by an attacker.
+
+- When you configure an FTP server to use passive mode, you typically need to specify a range of ports that the server can use for data connections. This is because in passive mode, the server is the one that initiates the data connection, and it will need to use a port that is available and not blocked by a firewall.
+
+    -   "20:20" maps the host's port 20 to the container's port 20, this is the port used for the FTP-data connection in active mode.
+    -   "21:21" maps the host's port 21 to the container's port 21, this is the port used for the control connection in both active and passive mode.
+    -   "40000-40005:40000-40005" maps a range of ports on the host to a range of ports inside the container. This range of ports (40000-40005) will be used for the data connections in passive mode.
+
+- vsftpd
+
+vsftpd (Very Secure File Transfer Protocol Daemon) is a popular, lightweight, and secure FTP server for Linux. It is designed to be fast, stable, and secure, and it is often used to provide FTP services on Linux servers.
+vsftpd can be configured through the use of a configuration file, typically located at /etc/vsftpd.conf. The file contains directives that control how the server behaves, including settings for virtual hosts, security, and performance.
+
+- vsftpd configuration
+
+        local_enable=YES
+        - Enable the ability of local users to log in to the FTP server.
+        allow_writeable_chroot=YES
+        - Is used to allow users to write to their home directories when they are chrooted (jailed)(When a user is chrooted, they can only access files and directories within their home directory and its subdirectories) to their home directory.
+        local_root=/home/bbrahim/ftp
+        - Is used to specify the directory that the users will be chrooted to, it's also known as the root directory of the FTP service.
+        pasv_enable=YES
+        - Is used to enable or disable the passive mode in the FTP server.
+        pasv_min_port=40000
+        pasv_max_port=40005
+        - Are used to specify the range of ports that the server can use for data connections in passive mode.
+        userlist_file=/etc/vsftpd.userlist
+        - Is used to specify the location of a file that contains a list of allowed or denied users for the FTP server.
+
+- vsftpd script file
+
+        #!/bin/bash
+
+        adduser $FTP_CLIENT --disabled-password
+        - Is used to create a new user on a Linux system without setting a password for the user.
+
+        echo "$FTP_CLIENT:$FTP_PASS" | /usr/sbin/chpasswd
+        - Is used to set or change the password for a user on a Linux system.
+
+        echo "$FTP_CLIENT" | tee -a /etc/vsftpd.userlist
+        - Is used to add a new user to the user list file /etc/vsftpd.userlist on a Linux system.
+
+        mkdir -p /home/$FTP_CLIENT/ftp
+        - Create the ftp folder
+
+        chown nobody:nogroup /home/$FTP_CLIENT/ftp
+        - Is used to change the ownership of the directory /home/$FTP_CLIENT/ftp on a Linux system.
+        chmod a-w /home/$FTP_CLIENT/ftp
+        - Remove write permissions
+
+        mkdir /home/$FTP_CLIENT/ftp/files
+        chown $FTP_CLIENT:$FTP_CLIENT /home/$FTP_CLIENT/ftp/files
+        - create the directory for file uploads and assign ownership to the user
+
+        service vsftpd start
+        service vsftpd stop
+
+        /usr/sbin/vsftpd
+
+##  cadvisor
+
+cAdvisor (short for container Advisor) is an open-source tool developed by Google for monitoring and analyzing the resource usage of containers.
+It provides detailed information about the resource usage of containers running on a machine, including CPU, memory, network, and disk usage.
+cAdvisor runs as a daemon on the host machine and automatically discovers all containers running on the machine.
+It then collects performance data from the containers and makes that data available through a RESTful API or a web-based user interface.
