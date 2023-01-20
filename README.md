@@ -2,7 +2,7 @@
 
 ##  Problem
 
-how to make sure that software runs correctly when it is moved from one computing environment to another.
+How to make sure that software runs correctly when it is moved from one computing environment to another.
 
 ##  Virtualization
 
@@ -41,7 +41,7 @@ Just like virtual machines, containers allow developers to improve CPU and memor
 ![screenshot](/assets/docker-vs-vm.png)
 ##  Docker
 
-Docker is a software platform that allows you to build, test, and deploy(Deploying an application typically involves moving the application from a development or testing environment to a production environment, where it can be accessed by users.) and scale(Scaling an application, involves increasing or decreasing the number of instances or resources (such as memory and CPU) allocated to the application to handle changing levels of traffic or load.) applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
+Docker is a software platform that allows you to build, test, and deploy(Deploying an application typically involves moving the application from a development or testing environment to a production environment, where it can be accessed by users) and scale(Scaling an application, involves increasing or decreasing the number of instances or resources (such as memory and CPU) allocated to the application to handle changing levels of traffic or load.) applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
 
 ##  Docker Architecture
 
@@ -76,7 +76,28 @@ The Docker Engine is the underlying technology that handles the tasks and workfl
 Docker Hub is a software-as-a-service tool that enables users to publish and share container-based applications through a common library.
 
 - Docker Network
+
+A Docker network is a virtual network that allows containers to communicate with each other and with the host. It allows containers to be isolated from the host network, while still being able to communicate with other containers and the host.There are several types of networks that can be created in Docker:
+
+1. Bridge: This is the default network type and is created automatically when Docker is installed. It allows containers to communicate with each other and with the host.
+
+2. Host: This network type allows a container to share the host's network namespace. This means that the container will have the same IP address as the host and can communicate directly with the host's network.
+
+3. None: This network type provides no network connectivity to a container.
+
+4. Overlay: This network type allows containers to communicate across multiple Docker hosts. It is used to connect multiple swarm services together.
+
+5. Macvlan: This network type allows a container to have a unique MAC address on the host network. It allows containers to be directly connected to the host network, bypassing the host's network stack.
+
 - Docker Volume
+
+A Docker volume is a way to store data outside of a container's filesystem. This allows data to persist even if the container is deleted or recreated, and also allows data to be shared between multiple containers.When a container is created, its filesystem is ephemeral, meaning that any changes made to the filesystem will be lost when the container is deleted. By using volumes, data can be stored in a separate location that is not affected by the lifecycle of the container.
+
+Docker volumes can be of different types:
+
+1. Bind Mounts: Allows you to mount a file or directory on the host machine to a container.
+2. Named Volumes: A named volume is a specific type of volume that is managed by Docker. It provides an abstraction layer over the underlying storage and can be backed by different storage drivers like local, NFS, etc.
+3. Tmpfs: This allows you to mount a tmpfs filesystem, which is stored in memory and not on disk.
 
 - Dockerfiles
 
@@ -149,7 +170,6 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
     In Docker, a container is an image with a readable layer build on top of a read-only layers. These layer are called intermediate images, and they are generated when we execute the commands in our Dockerfile during the build stage.
 
-
 - Docker Compose
 
     Docker Compose is a Docker tool used to define and run multi-container applications. With Compose, you use a YML file to configure your application’s services and create all the app’s services from that configuration.
@@ -172,7 +192,7 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 1. **`version`**:
 
-    The version field in the docker-compose.yml file specifies the version of the docker-compose file format that is being used. This field is optional but recommended, as it allows docker-compose to check compatibility with the version of the tool that you are using.
+    The version field specifies the version of the docker-compose file format that is being used. This field is optional but recommended, as it allows docker-compose to check compatibility with the version of the tool that you are using.
 
     The general syntax for the version field in the docker-compose.yml file is: `version: <version_number>`
 
@@ -182,10 +202,9 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 2. **`services`**:
 
-    In a docker-compose.yml file, the services field is used to define the services that are part of the application. Each service is a container that runs a specific process or set of processes. Each service can be configured with its own options and settings.
+    The services field is used to define the services that are part of the application. Each service is a container that runs a specific process or set of processes. Each service can be configured with its own options and settings.
 
     The general syntax for the services field in the docker-compose.yml file is:
-
     `services:`
     
             <service_name_1>:
@@ -195,10 +214,9 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 3. **`build`**:
 
-    In a docker-compose.yml file, the build field is used to specify the build context that should be used to build a custom image for a service. The build context can be a directory or a git repository containing a Dockerfile and the files needed to build the image.
+    The build field is used to specify the build context that should be used to build a custom image for a service. The build context can be a directory or a git repository containing a Dockerfile and the files needed to build the image.
 
     The general syntax for the build field in the docker-compose.yml file is:
-
     `services:`
 
         <service_name>:
@@ -206,10 +224,9 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 4. **`container_name`**:
 
-    In a docker-compose.yml file, the container_name field is used to specify the name that should be given to a container when it is created by docker-compose.
+    The container_name field is used to specify the name that should be given to a container when it is created by docker-compose.
 
     The general syntax for the container_name field in the docker-compose.yml file is:
-
     `services:`
 
         <service_name>:
@@ -217,120 +234,121 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 
 5. **`restart`**:
 
-In a docker-compose.yml file, the restart field is used to configure the behavior of a service's container when it exits or stops.
+    The restart field is used to configure the behavior of a service's container when it exits or stops.
 
-The general syntax for the restart field in the docker-compose.yml file is:
-    `services:`
+    The general syntax for the restart field in the docker-compose.yml file is:
+        `services:`
 
-        <service_name>:
-            restart: <policy>
+            <service_name>:
+                restart: <policy>
 
-where <policy> can be one of the following options:
+    where <policy> can be one of the following options:
 
-- no: The container will not automatically restart when it exits or stops. This is the default behavior(This policy is good for one-off tasks or for containers that are only meant to run for a short period of time).
+    - no: The container will not automatically restart when it exits or stops. This is the default behavior(This policy is good for one-off tasks or for containers that are only meant to run for a short period of time).
 
-- always: The container will always be restarted automatically if it exits or stops(This policy is good for services that are critical to the operation of your application and should always be running. It can be useful for stateless services, such as web servers, that can quickly recover from failures).
+    - always: The container will always be restarted automatically if it exits or stops(This policy is good for services that are critical to the operation of your application and should always be running. It can be useful for stateless services, such as web servers, that can quickly recover from failures).
 
-- on-failure: The container will be restarted automatically if it exits with a non-zero exit code(This policy is good for services that are important to the operation of your application, but don't need to be running all the time. It can be useful for stateful services, such as databases, that may take longer to recover from failures).
+    - on-failure: The container will be restarted automatically if it exits with a non-zero exit code(This policy is good for services that are important to the operation of your application, but don't need to be running all the time. It can be useful for stateful services, such as databases, that may take longer to recover from failures).
 
-- unless-stopped: The container will always be restarted automatically unless it is explicitly stopped(This policy is good for services that are critical to the operation of your application and should always be running unless explicitly stopped).
+    - unless-stopped: The container will always be restarted automatically unless it is explicitly stopped(This policy is good for services that are critical to the operation of your application and should always be running unless explicitly stopped).
 
-A good practice is to start with the on-failure policy and monitor the container's behavior, if the container is frequently failing, it's a sign that the service is not stable and you should consider using another policy such as always or unless-stopped.
+    A good practice is to start with the on-failure policy and monitor the container's behavior, if the container is frequently failing, it's a sign that the service is not stable and you should consider using another policy such as always or unless-stopped.
 
 6. **`env_file`**:
 
-The env_file field in a docker-compose.yml file is used to specify one or more environment files that should be loaded to provide environment variables for a service's container.
+    The env_file field is used to specify one or more environment files that should be loaded to provide environment variables for a service's container.
 
-The general syntax for the env_file field in the docker-compose.yml file is:
-    `services:`
+    The general syntax for the env_file field in the docker-compose.yml file is:
+        `services:`
 
-        <service_name>:
-            env_file:
-                - <path_to_env_file1>
+            <service_name>:
+                env_file:
+                    - <path_to_env_file1>
 
-Environment files are plain text files that contain key-value pairs of environment variables, one per line, in the format VARIABLE=value.
+    Environment files are plain text files that contain key-value pairs of environment variables, one per line, in the format VARIABLE=value.
 
 7. **`networks`**:
 
-The networks field in a docker-compose.yml file is used to specify the networks that a service should be connected to.
+    The networks field is used to specify the networks that a service should be connected to.
 
-The general syntax for the networks field in the docker-compose.yml file is:
-    `services:`
+    The general syntax for the networks field in the docker-compose.yml file is:
+        `services:`
 
-        <service_name>:
-            networks:
-                - <network_name1>
-            
-Before you connect a service to a network, the network should be defined in the docker-compose.yml file or created before running the docker-compose up command.
+            <service_name>:
+                networks:
+                    - <network_name1>
+                
+    Before you connect a service to a network, the network should be defined in the docker-compose.yml file or created before running the docker-compose up command.
 
-You can also use the default network that is created automatically by docker-compose if you don't specify any network for your service.
+    You can also use the default network that is created automatically by docker-compose if you don't specify any network for your service.
 
-- Define a network in docker-compose.yml:
+    - Define a network in docker-compose.yml:
 
-In a docker-compose.yml file, networks can be defined under the networks key at the top-level of the file. where you can specify the network name and the network driver options. you can also set some options like subnet and ip range for the network.
+    In a docker-compose.yml file, networks can be defined under the networks key at the top-level of the file. where you can specify the network name and the network driver options. you can also set some options like subnet and ip range for the network.
     `networks:`
 
         <network_name>:
             <network_driver_options>
 
-- Network driver options:
+    - Network driver options:
 
-In a docker-compose.yml file, the network_driver_options for a network can vary depending on the network driver you are using.
+    In a docker-compose.yml file, the network_driver_options for a network can vary depending on the network driver you are using.
 
-The most common network drivers are:
+    The most common network drivers are:
 
-- bridge: This is the default network driver and it creates a virtual network that connects containers on the same host together.
+    - bridge: This is the default network driver and it creates a virtual network that connects containers on the same host together.
 
-- host: This network driver allows the container to use the host's network stack. It does not create a separate network namespace for the container, so it shares the host's network interfaces.
+    - host: This network driver allows the container to use the host's network stack. It does not create a separate network namespace for the container, so it shares the host's network interfaces.
 
-- overlay: This network driver creates a virtual network that spans multiple hosts, allowing containers to communicate with each other across hosts.
+    - overlay: This network driver creates a virtual network that spans multiple hosts, allowing containers to communicate with each other across hosts.
 
-- macvlan: This network driver allows the container to have its own MAC address on the host's network, making it appear as a physical device on the network.
+    - macvlan: This network driver allows the container to have its own MAC address on the host's network, making it appear as a physical device on the network.
 
 8. **`ports`**:
 
-The ports(A port is a logical endpoint for network communication in a computer operating system) field in a docker-compose.yml file is used to specify the port mappings(Port mapping refers to the process of forwarding a port from a host machine to a container. In other words, it allows the container to receive incoming network traffic on a specific port of the host machine. This enables the container to be accessed from outside the host machine) between the host and the container.
+    The ports(A port is a logical endpoint for network communication in a computer operating system) field is used to specify the port mappings(Port mapping refers to the process of forwarding a port from a host machine to a container. In other words, it allows the container to receive incoming network traffic on a specific port of the host machine. This enables the container to be accessed from outside the host machine) between the host and the container.
 
-The general syntax for the ports field in the docker-compose.yml file is:
-    `services:`
+    The general syntax for the ports field in the docker-compose.yml file is:
+        `services:`
 
-        <service_name>:
-            ports:
-                - "<host_port>:<container_port>"
+            <service_name>:
+                ports:
+                    - "<host_port>:<container_port>"
 
-It's worth noting that if you don't specify a host port, Docker will automatically assign one.
+    It's worth noting that if you don't specify a host port, Docker will automatically assign one.
 
 9. **`volumes`**:
 
-The volumes field in the docker-compose.yml file is used to specify the volumes that will be mounted to the container. A volume is a way to store data outside of a container's filesystem. This allows the data to persist even if the container is deleted, and also allows for sharing data between containers.
+    The volumes field is used to specify the volumes that will be mounted to the container. A volume is a way to store data outside of a container's filesystem. This allows the data to persist even if the container is deleted, and also allows for sharing data between containers.
 
-The general syntax for the volumes field is:
-    `volumes:`
+    The general syntax for the volumes field is:
+        `volumes:`
 
-        - <host_path>:<container_path>
+            - <host_path>:<container_path>
 
-The <host_path> is the path on the host machine where the data will be stored, and <container_path> is the path inside the container where the data will be mounted.
+    The <host_path> is the path on the host machine where the data will be stored, and <container_path> is the path inside the container where the data will be mounted.
 
-- Define a volume in docker-compose.yml:
-    `volumes:`
+    - Define a volume in docker-compose.yml:
+        `volumes:`
 
-        <container_path>:
-            driver: local
-            driver_opts:
-                device: /Users/bbrahim/Desktop/data/wordpress_volume
-                o: bind
+            <container_path>:
+                driver: local
+                driver_opts:
+                    type: none
+                    device: /Users/bbrahim/Desktop/data/wordpress_volume
+                    o: bind
 
-The <container_path> is the path inside the container where the data will be mounted, and the driver field specifies the type of volume to use.
+    The <container_path> is the path inside the container where the data will be mounted, and the driver field specifies the type of volume to use.
 
-- driver:In Docker, a volume driver is a plugin that provides the underlying functionality for a specific type of volume. The volume driver is specified when a volume is created, and it determines how the volume is stored and accessed.
+    - driver:In Docker, a volume driver is a plugin that provides the underlying functionality for a specific type of volume. The volume driver is specified when a volume is created, and it determines how the volume is stored and accessed.
 
-- Local: This is the default volume driver, it uses the local filesystem of the host to store the data.
+    - Local: This is the default volume driver, it uses the local filesystem of the host to store the data.
 
-- driver_opts:The driver_opts field in the docker-compose.yml file is used to specify additional options for a volume driver. These options depend on the specific volume driver in use.
+    - driver_opts:The driver_opts field in the docker-compose.yml file is used to specify additional options for a volume driver. These options depend on the specific volume driver in use.
 
-- device:The device option in the driver_opts field is used to specify the path to the device where the volume should be created.
+    - device:The device option in the driver_opts field is used to specify the path to the device where the volume should be created.
 
-- o: bind:is specifying that the volume should be mounted as a bind mount. A bind mount allows you to mount a host directory as a data volume in a container. This means that the files in the host directory are directly accessible within the container, and any changes made to the files within the container will be reflected in the host directory as well.
+    - o: bind:is specifying that the volume should be mounted as a bind mount. A bind mount allows you to mount a host directory as a data volume in a container. This means that the files in the host directory are directly accessible within the container, and any changes made to the files within the container will be reflected in the host directory as well.
 
 - The difference between a docker image used with docker-compose and without docker-compose:
 

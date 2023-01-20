@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 build:
-	mkdir -p /Users/bbrahim/Desktop/data 
+	mkdir -p /Users/bbrahim/Desktop/data
 	mkdir -p /Users/bbrahim/Desktop/data/database_volume 
 	mkdir -p /Users/bbrahim/Desktop/data/wordpress_volume
 	docker-compose -f ./srcs/docker-compose.yml up --build

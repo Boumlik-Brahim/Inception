@@ -8,11 +8,13 @@ volumes:
   wordpress_volume:
     driver: local
     driver_opts:
+       type: none
        device: /Users/bbrahim/Desktop/data/wordpress_volume
        o: bind
   database_volume:
     driver: local
     driver_opts:
+       type: none
        device: /Users/bbrahim/Desktop/data/database_volume
        o: bind
 
