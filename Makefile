@@ -27,7 +27,6 @@ clean: down
 	rm -rf /Users/bbrahim/Desktop/data;\
 
 fclean: down
-	docker volume rm $$(docker volume ls -q);\
 	docker system prune -a -f;\
 	rm -rf /Users/bbrahim/Desktop/data;\
 
