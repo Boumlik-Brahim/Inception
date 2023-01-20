@@ -705,7 +705,7 @@ vsftpd can be configured through the use of a configuration file, typically loca
         chown nobody:nogroup /home/$FTP_CLIENT/ftp
         - Is used to change the ownership of the directory /home/$FTP_CLIENT/ftp on a Linux system.
         chmod a-w /home/$FTP_CLIENT/ftp
-        - Remove write permissions
+        - Remove write permissions for all users on the directory
 
         mkdir /home/$FTP_CLIENT/ftp/files
         chown $FTP_CLIENT:$FTP_CLIENT /home/$FTP_CLIENT/ftp/files
