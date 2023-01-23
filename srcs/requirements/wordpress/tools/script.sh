@@ -3,8 +3,6 @@ wp core download --path=/var/www/html --allow-root
 
 rm -rf /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
-
 wp config create --dbname=$DB_NAME \
                 --dbuser=$DB_USER_NAME \
                 --dbpass=$DB_USER_PASS \
@@ -43,5 +41,7 @@ wp plugin install redis-cache --path=/var/www/html --activate --allow-root
 wp redis enable --path=/var/www/html/ --allow-root
 
 service php7.3-fpm stop
+
+chown -R www-data:www-data -f /var/www/html
 
 php-fpm7.3 -F

@@ -126,7 +126,7 @@ Dockerfiles are how we containerize our application, or how we build a new conta
 3. **`COPY`**:
 
     The COPY instruction in a Dockerfile is used to copy files from the host machine to the container's file system.
-    The COPY instruction in a Dockerfile is used to copy files from the host machine to the container's file system. The general syntax for the COPY instruction is: `COPY <src> <dest>` src is the path of the file or directory on the host machine, and dest is the path in the container where the files will be copied to.
+    The general syntax for the COPY instruction is: `COPY <src> <dest>` src is the path of the file or directory on the host machine, and dest is the path in the container where the files will be copied to.
     It's important to note that the COPY instruction only copies files during the build process, it does not provide an ongoing synchronization between the host and the container. If you need to update the files in the container, you need to rebuild the image and relaunch the container.
 
     Also, COPY instruction is less performant than ADD instruction, it can't extract archives or access remote URLs. If you need to copy an archive or a remote URL, use ADD instruction instead.
@@ -488,11 +488,6 @@ FastCGI (Fast Common Gateway Interface) is a protocol that allows web servers to
         rm -rf /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
         - This command is used to remove the files "wp-config-sample.php" and "wp-config.php" from the directory "/var/www/html/". 
 
-        chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
-        - The first command, chown -R www-data:www-data /var/www/html, changes the ownership of the /var/www/html directory and all its contents to the www-data user and group.
-        - The second command, chmod -R 755 /var/www/html, changes the permissions of the /var/www/html directory and all its contents to 755(The permissions 755 mean that the owner has read, write, and execute permissions and others have only read and execute permissions).
-        - The -R flag is used to change the ownership recursively for all files and directories inside /var/www/html.
-
         wp config create --dbname=$DB_NAME \
                         --dbuser=$DB_USER_NAME \
                         --dbpass=$DB_USER_PASS \
@@ -558,6 +553,10 @@ FastCGI (Fast Common Gateway Interface) is a protocol that allows web servers to
 
         service php7.3-fpm stop
         - The service php7.3-fpm stop command is used to stop the PHP 7.3 FastCGI Process Manager (php-fpm) service. 
+
+        chown -R www-data:www-data /var/www/html
+        - The first command, chown -R www-data:www-data /var/www/html, changes the ownership of the /var/www/html directory and all its contents to the www-data user and group.
+        - The -R flag is used to change the ownership recursively for all files and directories inside /var/www/html.
 
         php-fpm7.3 -F
         - Is used to run the PHP-FPM (FastCGI Process Manager) service in the foreground. The -F option tells PHP-FPM to run in the foreground, rather than as a daemon process in the background.
